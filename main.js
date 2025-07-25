@@ -19,6 +19,8 @@
       score = 0;
       document.getElementById('score').textContent = 'النقاط: ' + score;
       document.getElementById('restartBtn').style.display = 'none';
+
+        
       clearInterval(game);
       game = setInterval(drawGame, 100);
     }
@@ -95,3 +97,33 @@
 
     // بدء اللعبة
     initGame();
+
+document.addEventListener('touchstart', handleTouchStart, false);
+document.addEventListener('touchmove', handleTouchMove, false);
+
+let touchStartX = 0;
+let touchStartY = 0;
+
+function handleTouchStart(e) {
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+}
+
+function handleTouchMove(e) {
+  let touchMoveX = e.touches[0].clientX;
+  let touchMoveY = e.touches[0].clientY;
+
+  let diffX = touchMoveX - touchStartX;
+  let diffY = touchMoveY - touchStartY;
+
+  if (Math.abs(diffX) > Math.abs(diffY)) {
+    if (diffX > 0 && direction !== 'LEFT') direction = 'RIGHT';
+    else if (diffX < 0 && direction !== 'RIGHT') direction = 'LEFT';
+  } else {
+    if (diffY > 0 && direction !== 'UP') direction = 'DOWN';
+    else if (diffY < 0 && direction !== 'DOWN') direction = 'UP';
+  }
+
+  touchStartX = touchMoveX;
+  touchStartY = touchMoveY;
+}
